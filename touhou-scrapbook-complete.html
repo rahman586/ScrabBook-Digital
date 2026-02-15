@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東方Project - Digital Scrapbook</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+:root {
+    --primary-red: #dc143c;
+    --secondary-red: #ff4757;
+    --white: #ffffff;
+    --black: #1a1a1a;
+    --gray: #f8f9fa;
+    --shadow: rgba(0, 0, 0, 0.2);
+    --gradient-red: linear-gradient(135deg, #ffffffea 0%, #ff0000f7 100%);
+    --logo-bg: rgba(255, 255, 255, 0.95);
+    --logo-shadow: 0 2px 10px rgba(220, 20, 60, 0.3);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    background: var(--gray);
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.navbar-custom {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background: rgba(255, 255, 255, 0.397);
+    backdrop-filter: blur(0px);
+    box-shadow: 0 2px 20px var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    z-index: 1000;
+}
+
+/* Logo dengan Background Circle */
+.navbar-custom .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--logo-bg);
+    padding: 8px 20px 8px 15px;
+    border-radius: 50px;
+    box-shadow: var(--logo-shadow);
+}
+
+.navbar-custom .logo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(220, 20, 60, 0.5);
+}
+
+.navbar-custom .logo h1 {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 24px;
+    color: var(--primary-red);
+    margin: 0;
+}
+
+/* Yin-Yang Rotating Animation */
+.yin-yang {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-image: url('./images/icons8-yin-yang-100.png');
+    background-size: cover;
+    animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Navigation Menu */
+.navbar-custom ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    margin: 0;
+}
+
+.navbar-custom label {
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--black);
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.navbar-custom label:hover {
+    background: var(--gray);
+    color: var(--primary-red);
+}
+
+/* Active Menu State */
+#page1:checked ~ .navbar-custom label[for="page1"],
+#page2:checked ~ .navbar-custom label[for="page2"],
+#page3:checked ~ .navbar-custom label[for="page3"],
+#page4:checked ~ .navbar-custom label[for="page4"],
+#page5:checked ~ .navbar-custom label[for="page5"],
+#page6:checked ~ .navbar-custom label[for="page6"],
+#page7:checked ~ .navbar-custom label[for="page7"],
+#page8:checked ~ .navbar-custom label[for="page8"] {
+    background: var(--gradient-red);
+    color: var(--white);
+}
+
+.page {
+    display: none;
+    min-height: 100vh;
+    width: 100%;
+    padding-top: 70px;
+}
+
+#page1:checked ~ #entrance-page { display: flex !important; }
+#page2:checked ~ #login-page { display: flex; }
+#page3:checked ~ #dashboard-page { display: block; }
+#page4:checked ~ #gallery-characters { display: block; }
+#page5:checked ~ #gallery-fumo { display: block; }
+#page6:checked ~ #gallery-games { display: block; }
+#page7:checked ~ #music-page { display: block; }
+#page8:checked ~ #about-page { display: block; }
+
+#entrance-page {
+    background-image: url('./images/bg-entrance1.png');
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Animated Yin-Yang Pattern */
+.entrance-pattern {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle, rgba(255, 255, 255, 0.1) 2px, transparent 2px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px, 30px 30px;
+    background-position: 0 0, 15px 15px;
+    animation: patternMove 20s linear infinite;
+    z-index: 0;
+}
+
+@keyframes patternMove {
+    from { background-position: 0 0, 15px 15px; }
+    to { background-position: 60px 60px, 75px 75px; }
+}
+
+/* Entrance Title Card */
+.entrance-card {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(0px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 60px 80px;
+    border-radius: 20px;
+    text-align: center;
+    z-index: 1;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.entrance-card h1 {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 48px;
+    color: var(--white);
+    margin-bottom: 15px;
+    text-shadow: 0 0 20px rgba(220, 20, 60, 0.8);
+}
+
+.entrance-card p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+.btn-start {
+    background: var(--gradient-red);
+    color: var(--white);
+    padding: 15px 50px;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-start:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 30px rgba(220, 20, 60, 0.5);
+    color: var(--white);
+}
+
+#login-page {
+    background-image: url('./images/bg-login.png');
+    background-size: cover;
+    background-position: center;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.stripes {
+    position: absolute;
+    width: 100%;
+    height: 92%;
+    background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.05) 20px, rgba(255,255,255,0.05) 40px);
+    z-index: 0;
+}
+
+.floating-icons {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.floating-icon {
+    position: absolute;
+    font-size: 60px;
+    opacity: 0.15;
+    animation: float 15s infinite ease-in-out;
+}
+
+.floating-icon:nth-child(1) { top: 20%; left: 30%; }
+.floating-icon:nth-child(2) { top: 70%; left: 30%; animation-delay: 3s; }
+.floating-icon:nth-child(3) { top: 40%; left: 65%; animation-delay: 6s; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-30px) rotate(180deg); }
+}
+
+.login-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 50px;
+    border-radius: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    z-index: 1;
+}
+
+.login-card h2 {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--white);
+    font-size: 32px;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.login-card p {
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--white);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    color: var(--white);
+    border-radius: 15px;
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.form-group input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.form-group input:focus {
+    border-color: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.02);
+}
+
+.btn-custom {
+    width: 100%;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--primary-red);
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-custom:hover {
+    transform: translateY(-3px);
+    background: var(--white);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+#dashboard-page {
+    background-image: url('./images/bg-dashboard.png');
+    background-size: cover;
+    background-position: center;
+    padding: 90px 0 20px 0;
+    position: relative;
+}
+
+#dashboard-page::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle, rgba(220, 20, 60, 0.08) 3px, transparent 3px),
+        radial-gradient(circle, rgba(255, 71, 87, 0.06) 2px, transparent 2px);
+    background-size: 50px 50px, 30px 30px;
+    background-position: 0 0, 15px 15px;
+    z-index: 0;
+    animation: patternMove 20s linear infinite;
+}
+
+#dashboard-page .container { position: relative; z-index: 1; }
+
+.hero-section {
+    text-align: center;
+    padding: 30px 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 40px var(--shadow);
+}
+
+.hero-section h1 {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 36px;
+    color: var(--primary-red);
+    margin-bottom: 10px;
+}
+
+.hero-section p {
+    font-size: 14px;
+    color: #666;
+}
+
+.dashboard-cards .card {
+    border: none;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 10px 30px var(--shadow);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+}
+
+.dashboard-cards .card:hover {
+    transform: translateY(-15px) scale(1.02);
+    box-shadow: 0 20px 50px rgba(220, 20, 60, 0.3);
+}
+
+.dashboard-cards .card-body {
+    padding: 20px;
+    text-align: center;
+}
+
+.card-icon {
+    width: 60px;
+    height: 60px;
+    background: var(--gradient-red);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 15px;
+    font-size: 28px;
+    box-shadow: 0 5px 15px rgba(220, 20, 60, 0.4);
+}
+
+.dashboard-cards .card-title {
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 10px;
+}
+
+.dashboard-cards .card-text {
+    color: #666;
+    font-size: 14px;
+}
+
+#gallery-characters {
+    background-image: url('./images/bg-gallery.png');
+    background-size: cover;
+    background-position: center;
+    padding: 80px 0 20px 0;
+    overflow-y: hidden;
+    max-height: 100vh;
+    position: relative;
+}
+
+#gallery-characters::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(255, 182, 193, 0.15) 10px, transparent 10px),
+        radial-gradient(circle at 70% 60%, rgba(255, 192, 203, 0.12) 15px, transparent 15px);
+    background-size: 200px 200px;
+    z-index: 0;
+    animation: sakuraFall 25s linear infinite;
+}
+
+@keyframes sakuraFall {
+    from { background-position: 0 0; }
+    to { background-position: 0 200px; }
+}
+
+#gallery-characters .container { position: relative; z-index: 1; }
+
+.gallery-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.gallery-header h2 {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 28px;
+    color: var(--primary-red);
+    margin-bottom: 5px;
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.564);
+}
+
+.gallery-header p {
+    color: #f8f9fa;
+    font-weight: 500;
+    text-shadow: 0 2px 10px rgb(255, 255, 255);
+}
+
+.character-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px var(--shadow);
+    transition: all 0.4s ease;
+    margin-bottom: 15px;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.character-card:hover {
+    transform: translateY(-15px) rotate(2deg);
+    box-shadow: 0 20px 50px rgba(220, 20, 60, 0.3);
+}
+
+.character-img {
+    width: 100%;
+    height: 200px;
+    background: var(--gradient-red);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.character-info {
+    padding: 15px;
+}
+
+.character-info h3 {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--primary-red);
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+.character-role {
+    color: #666;
+    font-size: 13px;
+    margin-bottom: 8px;
+    font-style: italic;
+}
+
+.character-info p {
+    color: #555;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+#gallery-fumo {
+    background-image: url('./images/bg-gallery.png');
+    background-size: cover;
+    background-position: center;
+    padding: 80px 0 20px 0;
+    overflow-y: hidden;
+    max-height: 100vh;
+    position: relative;
+}
+
+#gallery-fumo::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle, rgba(255, 192, 203, 0.1) 20px, transparent 20px);
+    background-size: 100px 100px;
+    z-index: 0;
+}
+
+#gallery-fumo .container { position: relative; z-index: 1; }
+
+.fumo-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px var(--shadow);
+    transition: all 0.4s ease;
+    margin-bottom: 15px;
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.fumo-card:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 20px 50px rgba(220, 20, 60, 0.3);
+}
+
+.fumo-img {
+    width: 100%;
+    height: 225px;
+    background: linear-gradient(135deg, #ffb3c1 0%, #ffc8dd 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.fumo-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.fumo-info h3 {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--primary-red);
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.fumo-info p {
+    color: #666;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+#gallery-games {
+    background-image: url('./images/bg-games6.png');
+    background-size: cover;
+    background-position: center;
+    padding: 80px 0 20px 0;
+    overflow-y: hidden;
+    max-height: 100vh;
+    position: relative;
+}
+
+#gallery-games::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle, rgba(100, 150, 200, 0.05) 3px, transparent 3px);
+    background-size: 40px 40px;
+    z-index: 0;
+}
+
+#gallery-games .container { position: relative; z-index: 1; }
+
+.game-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px var(--shadow);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.game-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(220, 20, 60, 0.3);
+}
+
+.game-img {
+    width: 100%;
+    height: 225px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: var(--white);
+}
+
+.game-img img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.game-img::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.078) 0%, rgba(0,0,0,0.7) 100%);
+    z-index: 2;
+}
+
+.game-img h4,
+.game-img p {
+    position: relative;
+    z-index: 3;
+    color: var(--white);
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+    margin: 5px 0;
+}
+
+.game-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.game-info h3 {
+    font-size: 14px;
+    color: var(--primary-red);
+    margin-bottom: 5px;
+}
+
+.game-info p {
+    font-size: 11px;
+    color: #666;
+}
+
+#music-page {
+    background-image: url('./images/bg-dashboard.png');
+    background-size: cover;
+    background-position: center;
+    padding: 90px 0 30px 0;
+    overflow-y: hidden;
+    max-height: 100vh;
+    position: relative;
+}
+
+#music-page::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle, rgba(220, 20, 60, 0.05) 2px, transparent 2px);
+    background-size: 30px 30px;
+    z-index: 0;
+}
+
+#music-page .container { position: relative; z-index: 1; }
+
+.music-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.music-header h2 {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 32px;
+    color: var(--primary-red);
+    margin-bottom: 10px;
+    text-shadow: 0 2px 10px rgb(255, 255, 255);
+}
+
+.music-header p {
+    color: #fffefe;
+    text-shadow: 0 2px 10px rgb(255, 255, 255);
+}
+
+.music-player-box {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px var(--shadow);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.music-player-box h3 {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--primary-red);
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+audio {
+    width: 100%;
+    max-width: 500px;
+    outline: none;
+}
+
+.track-list {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 40px var(--shadow);
+}
+
+.track-list h3 {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--primary-red);
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.track-item {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border-left: 4px solid var(--primary-red);
+    padding: 15px 20px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.track-item:hover {
+    transform: translateX(10px);
+    box-shadow: 0 5px 20px var(--shadow);
+}
+
+.track-number {
+    background: var(--gradient-red);
+    color: var(--white);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.track-details h4 {
+    color: var(--primary-red);
+    font-size: 16px;
+    margin-bottom: 3px;
+    font-weight: 600;
+}
+
+.track-details p {
+    color: #666;
+    font-size: 13px;
+    margin: 0;
+}
+
+#about-page {
+    background-image: url('./images/bg-about.png');
+    background-size: cover;
+    background-position: center;
+    padding: 85px 0 15px 0;
+    overflow-y: auto;
+    max-height: 100vh;
+    position: relative;
+}
+
+#about-page::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(ellipse at 20% 40%, rgba(100, 150, 200, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 70%, rgba(100, 150, 200, 0.06) 0%, transparent 50%);
+    z-index: 0;
+}
+
+#about-page .container { position: relative; z-index: 1; }
+
+.about-page-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.about-page-header h2 {
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 34px;
+    color: var(--primary-red);
+    text-shadow: 0 2px 10px rgba(247, 243, 243, 0.941);
+}
+
+.about-content-wrapper {
+    background: rgba(255, 255, 255, 0.632);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    padding: 50px;
+    box-shadow: 0 10px 40px var(--shadow);
+    margin-bottom: 15px;
+}
+
+.about-section h3, .spell-cards-section h3 {
+    font-family: 'Noto Sans JP', sans-serif;
+    color: var(--primary-red);
+    font-size: 28px;
+    margin-bottom: 14px;
+}
+
+.about-section p {
+    color: #555;
+    line-height: 1.5;
+    font-size: 15px;
+    margin-bottom: 14px;
+    text-align: justify;
+
+}
+
+.spell-card-item {
+    background: linear-gradient(135deg, #fefdfd77 0%, #f8f9fa50 100%);
+    backdrop-filter: blur(15px);
+    border-left: 4px solid var(--primary-red);
+    padding: 10px 12px;
+    margin-bottom: 9px;
+    border-radius: 9px;
+    transition: all 0.3s ease;
+}
+
+.spell-card-item:hover {
+    transform: translateX(10px);
+    box-shadow: 0 5px 20px var(--shadow);
+}
+
+.spell-card-item h4 {
+    color: var(--primary-red);
+    font-size: 18px;
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.spell-card-item p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}
+
+.footer {
+    background: rgba(255, 255, 255, 0.717);
+    backdrop-filter: blur(5px);
+    padding: 15px;
+    text-align: center;
+    border-radius: 30px;
+    box-shadow: 0 -5px 20px var(--shadow);
+}
+
+.footer p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+.social-links {
+    margin-top: 12px;
+}
+
+.social-links a {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background: var(--gradient-red);
+    color: var(--white);
+    border-radius: 50%;
+    line-height: 32px;
+    margin: 0 5px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.social-links a:hover {
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 10px 25px rgba(220, 20, 60, 0.5);
+}
+
+@media (max-width: 768px) {
+    .navbar-custom { padding: 0 20px; }
+    .navbar-custom .logo h1 { font-size: 18px; }
+    .navbar-custom ul { gap: 8px; }
+    .navbar-custom label { font-size: 12px; padding: 6px 10px; }
+    .login-card, .entrance-card { padding: 30px; }
+    .hero-section h1 { font-size: 28px; }
+    .entrance-card h1 { font-size: 36px; }
+}
+
+@media (max-width: 576px) {
+    .navbar-custom ul { gap: 5px; flex-wrap: wrap; }
+    .navbar-custom label { font-size: 11px; padding: 5px 8px; }
+    .yin-yang { width: 30px; height: 30px; }
+}
+
+.text-red { color: var(--primary-red); }
+.mb-20 { margin-bottom: 20px; }
+.mt-20 { margin-top: 20px; }
+</style>
+</head>
+
+<body>
+
+<input type="radio" name="page" id="page1" checked>
+<input type="radio" name="page" id="page2">
+<input type="radio" name="page" id="page3">
+<input type="radio" name="page" id="page4">
+<input type="radio" name="page" id="page5">
+<input type="radio" name="page" id="page6">
+<input type="radio" name="page" id="page7">
+<input type="radio" name="page" id="page8">
+
+<nav class="navbar-custom">
+    <label for="page1" class="logo">
+        <div class="yin-yang"></div>
+        <h1>東方Project</h1>
+    </label>
+    <ul>
+        <li><label for="page3">Dashboard</label></li>
+        <li><label for="page4">Characters</label></li>
+        <li><label for="page5">Fumo</label></li>
+        <li><label for="page6">Games</label></li>
+        <li><label for="page7">Music</label></li>
+        <li><label for="page8">About</label></li>
+    </ul>
+</nav>
+
+<section class="page" id="entrance-page">
+    <div class="entrance-pattern"></div>
+    <div class="entrance-card">
+        <h1>東方Project</h1>
+        <p>Digital Scrapbook</p>
+        <label for="page2" class="btn-start">Press Start</label>
+    </div>
+</section>
+
+<section class="page" id="login-page">
+    <div class="stripes"></div>
+    <div class="floating-icons">
+        <div class="floating-icon">☯️</div>
+        <div class="floating-icon">⛩️</div>
+        <div class="floating-icon">☯️</div>
+    </div>
+    <div class="login-card">
+        <h2>Selamat Datang di Gensokyo</h2>
+        <p>Masuki Dunia Penuh Fantasi</p>
+        <form onsubmit="return false;">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Masukkan Nama Kamu" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Masukkan Password" required>
+            </div>
+        </form>
+        <label for="page3" class="btn-custom">Masuki ⛩️</label>
+    </div>
+</section>
+
+<section class="page" id="dashboard-page">
+    <div class="container">
+        <div class="hero-section">
+            <h1>Touhou Project</h1>
+            <p>Jelajahi dunia penuh magis permainan bullet hell, pendeta kuil, dan kartu mantra</p>
+        </div>
+        
+        <div class="row dashboard-cards">
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-icon">👘</div>
+                        <h5 class="card-title">Karakter</h5>
+                        <p class="card-text">Temui pendeta kuil dan wanita penyihir ikonik di Gensokyo</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-icon">✨</div>
+                        <h5 class="card-title">Kartu Mantra</h5>
+                        <p class="card-text">Temukan pola dan serangan danmaku yang indah</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-icon">🎵</div>
+                        <h5 class="card-title">Musik</h5>
+                        <p class="card-text">Dengarkan komposisi soundtrack legendaris ZUN</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-icon">🎮</div>
+                        <h5 class="card-title">Permainan</h5>
+                        <p class="card-text">Jelajahi seri utama dan spin-off</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-2">
+            <div class="col-md-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h2 class="text-red">19+</h2>
+                        <p class="mb-0">Game Utama</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h2 class="text-red">200+</h2>
+                        <p class="mb-0">Karakter</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h2 class="text-red">1000+</h2>
+                        <p class="mb-0">Lagu Musik</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page" id="gallery-characters">
+    <div class="container">
+        <div class="gallery-header">
+            <h2>Galeri Karakter</h2>
+            <p>Temui Penghuni Gensokyo</p>
+        </div>
+        
+        <div class="row">
+            <!-- CHARACTER 1: REIMU -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="./images/reimu.png" alt="Reimu" style="width:100%; height:200px; object-fit:contain;">
+                    </div>
+                    <div class="character-info">
+                        <h3>Reimu Hakurei</h3>
+                        <p class="character-role">Gadis Kuil Hakurei</p>
+                        <p>Intinya plot armor main chara :v</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CHARACTER 2: MARISA -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="./images/marisa.png" alt="Marisa" style="width:100%; height:200px; object-fit:contain;">
+                    </div>
+                    <div class="character-info">
+                        <h3>Marisa Kirisame</h3>
+                        <p class="character-role">Penyihir Biasa</p>
+                        <p>Tukang maling -_-</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CHARACTER 3: SANAE -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="./images/sanae.png" alt="Sanae" style="width:100%; height:200px; object-fit:contain;">
+                    </div>
+                    <div class="character-info">
+                        <h3>Sanae Kochiya</h3>
+                        <p class="character-role">Gadis Kuil Moriya</p>
+                        <p>Saingan reimu</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CHARACTER 4: SAKUYA -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="./images/sakuya.png" alt="Sakuya" style="width:100%; height:200px; object-fit:contain;">
+                    </div>
+                    <div class="character-info">
+                        <h3>Sakuya Izayoi</h3>
+                        <p class="character-role">Pembantu SDM</p>
+                        <p>Jurusnya, Za Warudo~</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CHARACTER 5: REMILIA -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="./images/remilia.png" alt="Remilia" style="width:100%; height:200px; object-fit:contain;">
+                    </div>
+                    <div class="character-info">
+                        <h3>Remilia Scarlet</h3>
+                        <p class="character-role">Putri SDM</p>
+                        <p>Takut adek</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CHARACTER 6: YOUMU -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="character-card">
+                    <div class="character-img">
+                        <img src="./images/youmu.png" alt="Youmu" style="width:100%; height:200px; object-fit:contain;">
+                    </div>
+                    <div class="character-info">
+                        <h3>Youmu Konpaku</h3>
+                        <p class="character-role">Setengah Manusia-Hantu</p>
+                        <p>Pendekar Pedang Wanita</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page" id="gallery-fumo">
+    <div class="container">
+        <div class="gallery-header">
+            <h2>Fumo Collection</h2>
+            <p>Koleksi Fumo Plushies Touhou</p>
+        </div>
+        
+        <div class="row">
+            <!-- FUMO 1: REIMU -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="fumo-card">
+                    <div class="fumo-img">
+                    <img src="./images/reimu-fumo.png" alt="Reimu Fumo" style="width:100%; height:225px; object-fit:cover; object-position: center;">
+                    </div>
+                    <div class="fumo-info">
+                        <h3>Reimu Fumo</h3>
+                        <p>Boneka fumo imut Reimu Hakurei</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FUMO 2: MARISA -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="fumo-card">
+                    <div class="fumo-img">
+                        <img src="./images/marisa-fumo.png" alt="Marisa Fumo" style="width:100%; height:225px; object-fit:cover; object-position: center;">
+                    </div>
+                    <div class="fumo-info">
+                        <h3>Marisa Fumo</h3>
+                        <p>Boneka fumo Marisa yang lucu</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FUMO 3: CIRNO -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="fumo-card">
+                    <div class="fumo-img">
+                        <img src="./images/cirno-fumo.png" alt="Cirno Fumo" style="width:100%; height:225px; object-fit:cover; object-position: center;">
+                    </div>
+                    <div class="fumo-info">
+                        <h3>Cirno Fumo</h3>
+                        <p>Fumo Es ⑨</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FUMO 4: REMILIA -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="fumo-card">
+                    <div class="fumo-img">
+                        <img src="./images/remilia-fumo.png" alt="Remilia Fumo" style="width:100%; height:225px; object-fit:cover; object-position: center;">                    </div>
+                    <div class="fumo-info">
+                        <h3>Remilia Fumo</h3>
+                        <p>Vampir SDM versi fumo</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FUMO 5: FLANDRE -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="fumo-card">
+                    <div class="fumo-img">
+                        <img src="./images/flandre-fumo.png" alt="Flandre Fumo" style="width:100%; height:225px; object-fit:cover; object-position: center;">
+                    </div>
+                    <div class="fumo-info">
+                        <h3>Flandre Fumo</h3>
+                        <p>Adek Remilia yang destruktif</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- FUMO 6: YOUMU -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="fumo-card">
+                    <div class="fumo-img">
+                        <img src="./images/youmu-fumo.png" alt="Youmu Fumo" style="width:100%; height:225px; object-fit:cover; object-position: center;">
+                    </div>
+                    <div class="fumo-info">
+                        <h3>Youmu Fumo</h3>
+                        <p>Setengah hantu pendekar pedang</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page" id="gallery-games">
+    <div class="container">
+        <div class="gallery-header">
+            <h2>Official Games</h2>
+            <p>Touhou Project Seri Utama</p>
+        </div>
+        
+        <div class="row">
+            <!-- GAME 1: TH01 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="game-card">
+                    <div class="game-img">
+                        <img src="./images/th01.png" alt="th01" style="width:100%; height:225px; object-fit:cover; object-position: center;">
+                        <h4>TH01</h4>
+                        <p>1997</p>
+                    </div>
+                    <div class="game-info">
+                        <h3>The Highly Responsive to Prayers</h3>
+                        <p>The first Touhou game ever made</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GAME 2: TH02 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="game-card">
+                    <div class="game-img">
+                        <img src="./images/th02.png" alt="th02" style="width:100%; height:225px; object-fit:cover; object-position: center;">
+                        <h4>TH02</h4>
+                        <p>1997</p>
+                    </div>
+                    <div class="game-info">
+                        <h3>the Story of Eastern Wonderland</h3>
+                        <p>First game with shooting mechanics</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GAME 3: TH03 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="game-card">
+                    <div class="game-img">
+                        <img src="./images/th03.png" alt="th03" style="width:100%; height:225px; object-fit:cover; object-position: center;">
+                        <h4>TH03</h4>
+                        <p>1997</p>
+                    </div>
+                    <div class="game-info">
+                        <h3>The Phantasmagoria of Dim.Dream</h3>
+                        <p>First multiplayer Touhou game</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GAME 4: TH06 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="game-card">
+                    <div class="game-img">
+                        <img src="./images/th06.png" alt="th06" style="width:100%; height:225px; object-fit:cover; object-position: center;">
+                        <h4>TH06</h4>
+                        <p>2002</p>
+                    </div>
+                    <div class="game-info">
+                        <h3>the Embodiment of Scarlet Devil</h3>
+                        <p>First Windows Touhou game</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GAME 5: TH07 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="game-card">
+                    <div class="game-img">
+                        <img src="./images/th07.png" alt="th07" style="width:100%; height:225px; object-fit:cover; object-position: center;">
+                        <h4>TH07</h4>
+                        <p>2003</p>
+                    </div>
+                    <div class="game-info">
+                        <h3>Perfect Cherry Blossom</h3>
+                        <p>Eternal winter in Gensokyo</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- GAME 6: TH20 -->
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="game-card">
+                    <div class="game-img">
+                        <img src="./images/th20.png" alt="th07" style="width:100%; height:225px; object-fit:cover; object-position: center;">
+                        <h4>TH20</h4>
+                        <p>2025</p>
+                    </div>
+                    <div class="game-info">
+                        <h3>Fossilized Wonders</h3>
+                        <p>The Lastest Touhou Games</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page" id="music-page">
+    <div class="container">
+        <div class="music-header">
+            <h2>Touhou Music</h2>
+            <p>Legendary Soundtracks by ZUN</p>
+        </div>
+        
+        <!-- HTML5 AUDIO PLAYER -->
+        <div class="music-player-box">
+            <h3>🎵 Now Playing</h3>
+            <audio controls loop style="width: 100%; max-width: 500px;">
+                <source src="./music/touhou-bgm.mp3" type="audio/mpeg">
+            </audio>
+            <p style="margin-top: 15px; color: #666; font-size: 13px;">
+                <i class="fas fa-info-circle"></i> Ganti file music di: <code>./music/touhou-bgm.mp3</code>
+            </p>
+        </div>
+        
+        <!-- TRACK LIST -->
+        <div class="track-list">
+            <h3>Popular Tracks</h3>
+            
+            <div class="track-item">
+                <div class="track-number">1</div>
+                <div class="track-details">
+                    <h4>Bad Apple!!</h4>
+                    <p>TH04: Lotus Land Story - Stage 3 Theme</p>
+                </div>
+            </div>
+            
+            <div class="track-item">
+                <div class="track-number">2</div>
+                <div class="track-details">
+                    <h4>Night of Nights</h4>
+                    <p>TH06: EoSD - Remix of Flowering Night</p>
+                </div>
+            </div>
+            
+            <div class="track-item">
+                <div class="track-number">3</div>
+                <div class="track-details">
+                    <h4>U.N. Owen Was Her?</h4>
+                    <p>TH06: EoSD - Flandre Scarlet's Theme</p>
+                </div>
+            </div>
+            
+            <div class="track-item">
+                <div class="track-number">4</div>
+                <div class="track-details">
+                    <h4>Necrofantasia</h4>
+                    <p>TH07: PCB - Yukari Yakumo's Theme</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="page" id="about-page">
+    <div class="container">
+        <div class="about-page-header">
+            <h2>About Touhou Project</h2>
+        </div>
+        
+        <div class="about-content-wrapper">
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="about-section">
+                        <h3>Tentang Touhou Project</h3>
+                        <p><strong>東方Project (Touhou Project)</strong> adalah series video game bullet hell yang dikembangkan oleh Team Shanghai Alice, yang sebenarnya adalah one-man project oleh ZUN (Jun'ya Ōta). Game ini terkenal dengan pattern bullet (danmaku) yang sangat indah dan rumit, soundtrack yang memorable, serta karakter-karakter unik yang sebagian besar adalah perempuan dengan kemampuan supernatural.</p>
+                        <p>Touhou dimulai pada tahun 1996 dan telah memiliki lebih dari 19 game utama, belum termasuk spin-off dan official print works. Series ini memiliki fanbase yang sangat besar dan aktif, dengan ribuan fan-made doujin games, musik, dan artwork yang diproduksi setiap tahunnya.</p>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="spell-cards-section">
+                        <h3>Favorite Spell Cards</h3>
+                        <div class="spell-cards">
+                            <div class="spell-card-item">
+                                <h4>Fantasy Seal -Blink-</h4>
+                                <p>Reimu Hakurei - Barrage of yin-yang orbs</p>
+                            </div>
+                            <div class="spell-card-item">
+                                <h4>Master Spark</h4>
+                                <p>Marisa Kirisame - Massive laser beam</p>
+                            </div>
+                            <div class="spell-card-item">
+                                <h4>The World</h4>
+                                <p>Sakuya Izayoi - Time stop ability</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>&copy; 2026 Touhou Project Digital Scrapbook | Made with ❤️ by Darkzone</p>
+            <p style="font-size: 10px; margin-top: 3px;">Touhou Project © Team Shanghai Alice / ZUN</p>
+            <div class="social-links">
+                <!-- GANTI LINK SOCIAL MEDIA DI SINI -->
+                <a href="https://www.facebook.com/Rahman.yt.1" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://www.youtube.com/@FaisalArRahman-g8u" title="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://github.com/rahman586" title="GitHub"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
